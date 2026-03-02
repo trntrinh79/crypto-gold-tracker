@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto & Gold Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <pre class="terminal-text">> ./alternative.sh --freedom</pre>
+            <h1>There's another way.</h1>
+            <p>Thousands of people run their own everything. No subscriptions. No surveillance. Full control.</p>
+        </header>
+
+        <main>
+            <div class="card full-width">
+                <div class="card-header">
+                    <span class="terminal-text">> Bitcoin Price Chart (BTC/USDT)</span>
+                </div>
+                <div class="card-content">
+                    <!-- TradingView Widget BEGIN -->
+                    <div class="tradingview-widget-container">
+                        <div id="tradingview_btc"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                        <script type="text/javascript">
+                        new TradingView.widget(
+                        {
+                        "width": "100%",
+                        "height": "400",
+                        "symbol": "BINANCE:BTCUSDT",
+                        "interval": "60",
+                        "timezone": "Asia/Ho_Chi_Minh",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "enable_publishing": false,
+                        "hide_side_toolbar": false,
+                        "allow_symbol_change": true,
+                        "save_image": false,
+                        "calendar": false,
+                        "container_id": "tradingview_btc"
+                      }
+                        );
+                        </script>
+                    </div>
+                    <!-- TradingView Widget END -->
+                </div>
+            </div>
+
+            <div class="card full-width">
+                <div class="card-header">
+                    <span class="terminal-text">> Gold Price Chart (GOLD/USD)</span>
+                </div>
+                <div class="card-content">
+                    <!-- TradingView Widget BEGIN -->
+                    <div class="tradingview-widget-container">
+                        <div id="tradingview_gold"></div>
+                        <script type="text/javascript">
+                        new TradingView.widget(
+                        {
+                        "width": "100%",
+                        "height": "400",
+                        "symbol": "TVC:GOLD",
+                        "interval": "60",
+                        "timezone": "Asia/Ho_Chi_Minh",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "enable_publishing": false,
+                        "hide_side_toolbar": false,
+                        "allow_symbol_change": true,
+                        "save_image": false,
+                        "calendar": false,
+                        "container_id": "tradingview_gold"
+                      }
+                        );
+                        </script>
+                    </div>
+                    <!-- TradingView Widget END -->
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>They don't trust OpenAI with their data. They don't trust Google with their privacy. They don't trust the cloud to always be there.</p>
+            <p class="highlight">They own everything.</p>
+            <p>And they're inside <span class="highlight">Tinkerers Club</span>, showing others how.</p>
+        </footer>
+    </div>
+</body>
+</html>
