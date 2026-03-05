@@ -1,0 +1,25 @@
+# General files to ignore
+.DS_Store
+.vscode/
+Thumbs.db
+
+# OpenClaw specific files and folders to ignore
+.clawhub/
+.openclaw/
+Content/
+avatars/
+canvas/
+memory/
+skills/
+.env
+AGENTS.md
+BOOTSTRAP.md
+HEARTBEAT.md
+IDENTITY.md
+MEMORY.md
+SOUL.md
+TOOLS.md
+USER.md
+
+# Ignore the Website folder if it still exists locally
+Website/
