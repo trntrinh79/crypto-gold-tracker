@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teddy Trader OS</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --accent-cyan: #38bdf8;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background: #020617;
+            color: var(--text-primary);
+            font-family: 'Segoe UI', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .header {
+            height: 60px;
+            background: #0f172a;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            justify-content: space-between;
+        }
+        .logo { font-weight: bold; font-size: 1.2rem; color: var(--accent-cyan); display: flex; gap: 10px; align-items: center; }
+        .main-content {
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 5px;
+            padding: 5px;
+            background: #000;
+        }
+        .widget-container {
+            background: #131722;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Layout: Top Left = BTC Chart, Bottom Left = ETH Chart, Right = News/Poly */
+        .chart-btc { grid-column: 1; grid-row: 1; }
+        .chart-eth { grid-column: 1; grid-row: 2; }
+        .sidebar   { grid-column: 2; grid-row: 1 / span 2; display: flex; flex-direction: column; gap: 5px; }
+        
+        .side-card {
+            background: #1e293b;
+            padding: 15px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .card-title { color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; font-weight: bold; border-bottom: 1px solid #334155; padding-bottom: 5px; }
+        
+        .news-item { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #334155; }
+        .news-title { font-size: 0.9rem; font-weight: 500; line-height: 1.4; margin-bottom: 5px; }
+        .news-meta { font-size: 0.75rem; color: #64748b; }
+        
+        .poly-stat { font-size: 1.5rem; font-weight: bold; color: #f59e0b; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🐻 TEDDY TRADER OS</div>
+        <div style="font-size: 0.9rem; color: #94a3b8">Live Market Data • TradingView Engine</div>
+    </div>
+
+    <div class="main-content">
+        <!-- BTC Chart -->
+        <div class="widget-container chart-btc">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container" style="height:100%;width:100%">
+                <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                {
+                "autosize": true,
+                "symbol": "BINANCE:BTCUSDT",
+                "interval": "60",
+                "timezone": "Asia/Ho_Chi_Minh",
+                "theme": "dark",
+                "style": "1",
+                "locale": "en",
+                "enable_publishing": false,
+                "hide_top_toolbar": false,
+                "allow_symbol_change": true,
+                "calendar": false,
+                "support_host": "https://www.tradingview.com"
+                }
+                </script>
+            </div>
+            <!-- TradingView Widget END -->
+        </div>
+
+        <!-- ETH Chart -->
+        <div class="widget-container chart-eth">
+             <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container" style="height:100%;width:100%">
+                <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                {
+                "autosize": true,
+                "symbol": "BINANCE:ETHUSDT",
+                "interval": "60",
+                "timezone": "Asia/Ho_Chi_Minh",
+                "theme": "dark",
+                "style": "1",
+                "locale": "en",
+                "enable_publishing": false,
+                "hide_top_toolbar": false,
+                "allow_symbol_change": true,
+                "calendar": false,
+                "support_host": "https://www.tradingview.com"
+                }
+                </script>
+            </div>
+            <!-- TradingView Widget END -->
+        </div>
+
+        <!-- Sidebar: Polymarket & News -->
+        <div class="sidebar">
+            <div class="side-card" style="flex-grow: 0; min-height: 200px;">
+                <div class="card-title">🎲 Polymarket Odds</div>
+                <div style="margin-bottom:5px; font-size:0.9rem">Bitcoin < $65k (Feb)</div>
+                <div class="poly-stat">71% YES</div>
+                <div style="height:6px; background:#334155; border-radius:3px; margin-top:5px; overflow:hidden">
+                    <div style="height:100%; width:71%; background: linear-gradient(90deg, #f59e0b, #ef4444);"></div>
+                </div>
+                <div style="margin-top:20px; font-size:0.9rem">ETH ETF Approval (May)</div>
+                <div class="poly-stat" style="color:#38bdf8">45% YES</div>
+                 <div style="height:6px; background:#334155; border-radius:3px; margin-top:5px; overflow:hidden">
+                    <div style="height:100%; width:45%; background: linear-gradient(90deg, #38bdf8, #6366f1);"></div>
+                </div>
+            </div>
+
+            <div class="side-card">
+                <div class="card-title">📰 Crypto Intelligence</div>
+                <div class="news-item">
+                    <div class="news-title">Nomura defends crypto strategy limits volatility at Laser Digital</div>
+                    <div class="news-meta">CoinDesk • 2h ago</div>
+                </div>
+                <div class="news-item">
+                    <div class="news-title">World Liberty launches $3.4B stablecoin & lending platform</div>
+                    <div class="news-meta">Cointelegraph • 4h ago</div>
+                </div>
+                <div class="news-item">
+                    <div class="news-title">Ripple/SEC Update: Speculation on ETF approval with new leadership</div>
+                    <div class="news-meta">Binance • 5h ago</div>
+                </div>
+                <div class="news-item">
+                     <div class="news-title">Bitcoin holds steady at $98k amidst global uncertainty</div>
+                     <div class="news-meta">Teddy AI • Just now</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

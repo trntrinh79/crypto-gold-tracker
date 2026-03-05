@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binance Alpha • Monitor v5</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #0b0e11;
+            --bg-card: #1e2329;
+            --text-primary: #eaecef;
+            --text-secondary: #848e9c;
+            --accent-gold: #f0b90b;
+            --accent-green: #0ecb81;
+            --accent-red: #f6465d;
+            --border-color: #2b3139;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            font-family: 'IBM Plex Sans', sans-serif;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+        }
+
+        .container {
+            width: 900px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title { font-size: 20px; font-weight: 600; color: var(--text-primary); }
+        .subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+
+        .market-table { width: 100%; border-collapse: collapse; }
+        .market-table th {
+            text-align: left;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background: #161a1e;
+        }
+        .market-table th:last-child { text-align: right; }
+        .market-table td { padding: 16px 24px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
+        .market-table tr:last-child td { border-bottom: none; }
+
+        .token-symbol { font-weight: 600; font-size: 15px; color: var(--text-primary); }
+        .token-name { font-size: 12px; color: var(--text-secondary); margin-left: 8px; }
+
+        .status-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+        .status-green { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+        .status-yellow { background: rgba(240, 185, 11, 0.15); color: #f0b90b; }
+        .status-red { background: rgba(244, 63, 94, 0.15); color: #f43f5e; }
+        .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+        .price-val { font-family: 'JetBrains Mono', monospace; font-size: 15px; text-align: right; display: block; }
+        .badge-4x {
+            background: linear-gradient(90deg, #F0B90B 0%, #F8D33A 100%);
+            color: #000;
+            font-weight: 700;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+        
+        .row-highlight { background: rgba(240, 185, 11, 0.05); }
+        
+        #update-time { font-family: 'JetBrains Mono', monospace; color: var(--accent-green); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <div>
+                <div class="title">Binance Alpha Monitor</div>
+                <div class="subtitle">Live Feed from Official API • <span id="update-status">Connected</span></div>
+            </div>
+            <div style="text-align:right">
+                <div style="font-size:12px; color:#848e9c">LAST UPDATE</div>
+                <div id="update-time">--:--:--</div>
+            </div>
+        </div>
+
+        <table class="market-table">
+            <thead>
+                <tr>
+                    <th>TOKEN</th>
+                    <th>STATUS</th>
+                    <th style="text-align:right">PRICE (USDT)</th>
+                </tr>
+            </thead>
+            <tbody id="ticker-body">
+                <!-- Data here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Placeholder for initial data
+        let currentData = null;
+
+        // DATA INJECTION MARKER
+        const INJECTED_DATA = {"lastUpdated": 1770268331, "items": [{"n": "WARD/USDT", "p": 0.10325646806104212, "st": "red:unstable", "md": 29, "spr": 0.0}, {"n": "TRIA/USDT", "p": 0.020243989121836708, "st": "red:unstable", "md": 28, "spr": 0.0}, {"n": "WMTX/USDT", "p": 0.09051974400917213, "st": "red:unstable", "md": 20, "spr": 0.0}, {"n": "FIGHT/USDT", "p": 0.006137311314547171, "st": "red:unstable", "md": 16, "spr": 0.0}, {"n": "OWL/USDT", "p": 0.015186857293881289, "st": "red:unstable", "md": 9, "spr": 0.0}, {"n": "ZTC/USDT", "p": 0.0020338821424895448, "st": "red:unstable", "md": 1, "spr": 0.0}, {"n": "KOGE/USDT", "p": 47.89949205566841, "st": "green:stable", "md": 0, "spr": 0.0}]};// END_INJECT
+
+        function render(data) {
+            if (!data || !data.items) return;
+
+            const tbody = document.getElementById('ticker-body');
+            tbody.innerHTML = '';
+
+            // Sort: Green -> Yellow -> Red
+            const items = data.items.sort((a,b) => {
+                 const order = { 'green': 1, 'yellow': 2, 'red': 3 };
+                 const ca = a.st.split(':')[0];
+                 const cb = b.st.split(':')[0];
+                 return order[ca] - order[cb];
+            });
+
+            items.forEach(item => {
+                const name = item.n.split('/')[0];
+                const [color, status] = item.st.split(':');
+                const isWard = name === 'WARD';
+
+                const row = document.createElement('tr');
+                if (isWard) row.classList.add('row-highlight');
+
+                row.innerHTML = `
+                    <td>
+                        <span class="token-symbol">${name}</span>
+                        ${item.md > 0 ? `<span class="badge-4x">${item.md}D</span>` : ''}
+                    </td>
+                    <td>
+                        <span class="status-chip status-${color}">
+                            <span class="dot"></span> ${status}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="price-val" style="color: ${color === 'green' ? '#0ecb81' : '#f6465d'}">
+                            ${item.p.toFixed(8)}
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // Update timestamp
+            const date = new Date(data.lastUpdated * 1000);
+            document.getElementById('update-time').innerText = date.toLocaleTimeString();
+        }
+
+        // Initial Render
+        if (INJECTED_DATA) render(INJECTED_DATA);
+
+        // POLL MECHANISM: Read own file to get new injected data
+        setInterval(() => {
+            fetch('dashboard_alpha.html?t=' + Date.now()) // Anti-cache
+                .then(r => r.text())
+                .then(html => {
+                    // Extract JSON from HTML string
+                    const startMarker = 'const INJECTED_DATA = ';
+                    const endMarker = ';// END_INJECT';
+                    const start = html.indexOf(startMarker);
+                    const end = html.indexOf(endMarker);
+                    
+                    if (start > -1 && end > -1) {
+                        const jsonStr = html.substring(start + startMarker.length, end);
+                        try {
+                            const newData = JSON.parse(jsonStr);
+                            // Only re-render if timestamp changed
+                            if (!currentData || newData.lastUpdated > currentData.lastUpdated) {
+                                currentData = newData;
+                                render(newData);
+                                console.log("UI Updated");
+                            }
+                        } catch(e) { console.error("Parse error", e); }
+                    }
+                });
+        }, 1000); // Check every 1s
+    </script>
+</body>
+</html>

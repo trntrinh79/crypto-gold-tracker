@@ -3,7 +3,7 @@ body {
     color: #FFFFFF;
     font-family: 'Roboto Mono', monospace;
     margin: 0;
-    padding: 15px; /* Slightly more padding for mobile for better spacing */
+    padding: 10px; /* Reduced base padding for mobile to give more content width */
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -14,42 +14,42 @@ body {
 }
 
 .container {
-    max-width: 900px;
+    max-width: 900px; /* Keep max-width for mobile, will be overridden for PC */
     width: 100%;
-    padding: 0; /* Container itself shouldn't add extra padding if body already has it */
+    padding: 0;
     box-sizing: border-box;
 }
 
 header {
     text-align: center;
-    margin-bottom: 40px; /* Increased margin for better separation */
+    margin-bottom: 40px;
 }
 
 header h1 {
     color: #66B933;
-    font-size: 1.8em; /* Slightly smaller for very small mobile screens */
+    font-size: 1.8em;
     margin: 10px 0;
     word-wrap: break-word;
 }
 
 header p {
     color: #aaa;
-    font-size: 0.85em; /* Slightly smaller for very small mobile screens */
-    max-width: 600px; /* Limit paragraph width for readability */
-    margin: 0 auto 25px auto; /* Adjusted margin */
+    font-size: 0.85em;
+    max-width: 600px;
+    margin: 0 auto 25px auto;
 }
 
 .terminal-text {
     color: #66B933;
-    font-size: 0.8em; /* Adjusted for very small mobile screens */
+    font-size: 0.8em;
     margin-bottom: 5px;
 }
 
 main {
     display: grid;
-    grid-template-columns: 1fr; /* Always single column for this layout */
-    gap: 25px; /* INCREASED GAP for mobile */
-    margin-bottom: 40px; /* Increased margin */
+    grid-template-columns: 1fr;
+    gap: 25px;
+    margin-bottom: 40px;
 }
 
 .card {
@@ -57,7 +57,7 @@ main {
     border: 1px solid #66B933;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 0 12px rgba(102, 185, 51, 0.4); /* Slightly stronger shadow */
+    box-shadow: 0 0 12px rgba(102, 185, 51, 0.4);
 }
 
 .card-header {
@@ -67,7 +67,7 @@ main {
 }
 
 .card-content {
-    padding: 0; /* REMOVED PADDING to fill the entire green box */
+    padding: 0;
 }
 
 .data-display {
@@ -79,14 +79,12 @@ main {
     word-wrap: break-word;
 }
 
-/* TradingView widget specific adjustments */
 .tradingview-widget-container {
-    height: 350px; /* Default height for charts on mobile */
+    height: 400px; /* Increased mobile chart height */
     width: 100%;
     overflow: hidden;
     border-radius: 5px;
-    /* To make sure TradingView iframe scales properly */
-    position: relative; /* Needed for iframe to fill correctly */
+    position: relative;
 }
 
 .tradingview-widget-container iframe {
@@ -94,7 +92,7 @@ main {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100% !important; /* Force override */
+    height: 100% !important;
     border: none;
 }
 
@@ -117,11 +115,11 @@ footer .highlight {
 /* Media query for larger screens (e.g., PC 1920x1080 and up) */
 @media (min-width: 768px) {
     body {
-        padding: 40px; /* More padding on larger screens */
+        padding: 50px; /* Consistent PC padding */
     }
 
     .container {
-        max-width: 1200px; /* Increased max-width for PC */
+        max-width: 1000px; /* REDUCED MAX-WIDTH for PC to make it narrower, closer to tinkerer.club */
         padding: 0;
     }
 
@@ -130,24 +128,24 @@ footer .highlight {
     }
 
     header h1 {
-        font-size: 3.2em; /* Slightly larger heading for PC */
+        font-size: 3em; /* Adjusted for narrower container */
     }
 
     header p {
-        font-size: 1.2em; /* Slightly larger paragraph for PC */
-        max-width: 800px; /* Increased max-width for readability */
+        font-size: 1.1em; /* Adjusted for narrower container */
+        max-width: 700px; /* Adjusted max-width for readability */
     }
 
     .terminal-text {
-        font-size: 1.2em; /* Slightly larger terminal text for PC */
+        font-size: 1.1em; /* Adjusted for narrower container */
     }
 
     main {
-        gap: 40px; /* INCREASED GAP for larger screens */
+        gap: 40px;
     }
 
     .card {
-        box-shadow: 0 0 25px rgba(102, 185, 51, 0.6); /* Even stronger shadow on PC */
+        box-shadow: 0 0 25px rgba(102, 185, 51, 0.6);
     }
 
     .card-header {
@@ -155,19 +153,19 @@ footer .highlight {
     }
 
     .card-content {
-        padding: 0; /* REMOVED PADDING for PC as well */
+        padding: 0;
     }
 
     .data-display {
-        font-size: 2.4em; /* Larger data display for PC */
+        font-size: 2.2em; /* Adjusted for narrower container */
     }
 
     .tradingview-widget-container {
-        height: 500px; /* Using 500px as decided in index.html */
+        height: 700px; /* Increased PC chart height to match widget setting */
     }
 
     footer {
-        font-size: 1em;
+        font-size: 0.9em;
         padding-top: 40px;
     }
 }
